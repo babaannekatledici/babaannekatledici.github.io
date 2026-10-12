@@ -18,9 +18,8 @@ A Doce Maria (Ipsep, Recife) vende bolos, doces e mini salgados só por encomend
 | Topo | "a partir de R$ 20, valor a confirmar"; pede foto de referência no WhatsApp |
 | Bolo caseiro | R$ 65/kg, a partir de 1 kg, de 0,5 em 0,5 |
 | Bolo de noiva pernambucano | R$ 100/kg, a partir de 1 kg, de 0,5 em 0,5 |
-| Salgados | R$ 2 (coxinha, empada, bolinho de queijo); mínimo 25 no total, depois qualquer quantidade de cada sabor; sempre fritos (D24) |
-| Empadão médio | 5 sabores, 1 a 10 por sabor; preço a confirmar (D23) |
-| Doces | R$ 1,50; de 25 em 25 |
+| Salgados e doces | Mínimo de 25 no pedido somando os sabores, cada sabor de 5 em 5 (D33); salgados R$ 2, doces R$ 1,50; sempre fritos (D24) |
+| Empadão médio | Fora do site até a ficha técnica (D34) |
 | Kits | 10 / 15 / 20 pessoas = R$ 230 / R$ 345 / R$ 460; 5 salgados e 3 doces por pessoa (D32) |
 | Limite por pedido | 100 salgados, 100 doces, 10 kg de bolo (somando kits); acima disso → "fale com a Doce Maria" |
 | Entrega | retirada grátis (Rua Rio Ipojuca, 60, Ipsep); entrega dela com taxa estimada por bairro até 10 km de carro, 54 bairros (D25, [BAIRROS.md](BAIRROS.md)); Uber/99 do cliente (bolo só de carro, D12) |

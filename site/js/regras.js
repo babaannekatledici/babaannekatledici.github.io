@@ -109,6 +109,9 @@ export function errosDeQuantidade(cat, itens) {
   if (q.salgados > 0 && q.salgados < r.minimoSalgados) {
     erros.push(`Faltam ${r.minimoSalgados - q.salgados} salgados para o mínimo de ${r.minimoSalgados} no pedido.`);
   }
+  if (q.doces > 0 && q.doces < r.minimoDoces) {
+    erros.push(`Faltam ${r.minimoDoces - q.doces} doces para o mínimo de ${r.minimoDoces} no pedido.`);
+  }
   if (q.salgados > r.limitesPorDia.salgados) {
     erros.push(`Para mais de ${r.limitesPorDia.salgados} salgados num dia, fale direto com a Doce Maria.`);
   }
@@ -119,8 +122,10 @@ export function errosDeQuantidade(cat, itens) {
     erros.push(`Para mais de ${formatarKg(r.limitesPorDia.boloKg)} de bolo num dia, fale direto com a Doce Maria.`);
   }
   for (const item of itens) {
-    if (item.tipo === "unidade" && categoriaDe(cat, item.produto) === "doces" && item.qtd % r.passoDoces !== 0) {
-      erros.push(`Os doces são vendidos de ${r.passoDoces} em ${r.passoDoces}.`);
+    if (item.tipo === "unidade") {
+      const categoria = categoriaDe(cat, item.produto);
+      const passo = categoria === "doces" ? r.passoDoces : r.passoSalgados;
+      if (item.qtd % passo !== 0) erros.push(`${produto(cat, item.produto).nome}: de ${passo} em ${passo} unidades.`);
     }
     if (item.tipo === "empadao" && !(Number.isInteger(item.qtd) && item.qtd >= 1 && item.qtd <= cat.empadao.maxPorItem)) {
       erros.push(`Empadão: de 1 a ${cat.empadao.maxPorItem} por sabor.`);

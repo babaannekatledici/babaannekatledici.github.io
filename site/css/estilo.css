@@ -243,6 +243,10 @@ a { color: var(--rosa-700); }
 .secao--folha { background: var(--branco); border-radius: var(--raio-g); margin: 0 8px; box-shadow: 0 1px 0 var(--linha), var(--sombra); }
 .secao__cabeca { max-width: 640px; margin-bottom: 1.75rem; }
 .secao__cabeca p:last-child { color: var(--cacau-700); }
+.secao__cabeca .progresso { font-weight: 800; margin: 0; }
+.secao__cabeca .progresso:empty { display: none; }
+.secao__cabeca .progresso--falta { color: var(--rosa-700); }
+.secao__cabeca .progresso--ok { color: var(--ok); }
 @media (min-width: 900px) { .secao { padding: 5.5rem 0; } .secao--folha { margin: 0 24px; } }
 
 .grade { display: grid; gap: 1.25rem; }

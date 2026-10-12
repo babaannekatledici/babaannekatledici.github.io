@@ -40,7 +40,7 @@ function itemValido(item) {
     const bolo = cat.bolos[item.produto];
     if (!bolo || item.kg < bolo.kgMin || item.kg > bolo.kgMax) return false;
   } else if (item.tipo === "empadao") {
-    return cat.empadao.sabores.includes(item.sabor) && Number.isInteger(item.qtd) && item.qtd >= 1 && item.qtd <= cat.empadao.maxPorItem;
+    return Boolean(cat.empadao?.ativo) && cat.empadao.sabores.includes(item.sabor) && Number.isInteger(item.qtd) && item.qtd >= 1 && item.qtd <= cat.empadao.maxPorItem;
   } else if (item.tipo !== "unidade") return false;
   return Number.isFinite(r.precoItem(cat, item));
 }
@@ -176,7 +176,7 @@ function desenharBolos() {
 function controleQtd(id, plural, editavel) {
   const passo = r.categoriaDe(cat, id) === "doces" ? cat.regras.passoDoces : cat.regras.passoSalgados;
   const valor = editavel
-    ? `<input type="number" inputmode="numeric" min="0" step="1" value="0" aria-label="Quantidade de ${esc(plural)}" data-qtd-input>`
+    ? `<input type="number" inputmode="numeric" min="0" step="${passo}" value="0" aria-label="Quantidade de ${esc(plural)}" data-qtd-input>`
     : `<output aria-label="Quantidade de ${esc(plural)}" data-qtd-valor>0</output>`;
   return `<div class="qtd" data-produto="${esc(id)}">
       <button type="button" data-delta="-${passo}" aria-label="Menos ${passo} ${esc(plural)}">−</button>${valor}
@@ -192,7 +192,7 @@ function desenharUnidades(categoria) {
         <h3>${esc(p.nome)}</h3>
         <p class="cartao__preco">${dinheiro(p.preco)} <small>a unidade</small></p>
         <div class="cartao__acoes">
-          ${controleQtd(p.id, p.plural, categoria === "salgados")}
+          ${controleQtd(p.id, p.plural, true)}
           <span class="nota" data-subtotal="${esc(p.id)}"></span>
         </div>
       </div>
@@ -201,6 +201,7 @@ function desenharUnidades(categoria) {
 
 function desenharEmpadao() {
   const e = cat.empadao;
+  if (!e?.ativo) return; // fora do site até a ficha técnica ficar pronta (D34)
   const preco = e.preco == null ? `<p class="cartao__preco">Valor a confirmar <small>pela Doce Maria</small></p>` : `<p class="cartao__preco">${dinheiro(e.preco)} <small>cada</small></p>`;
   $("[data-lista-salgados]").insertAdjacentHTML("beforeend", `
     <article class="cartao cartao--empadao">
@@ -233,7 +234,8 @@ function desenharEpoca() {
 
 function mudarQuantidade(id, novo) {
   const antes = carrinho.quantidadeDe(id);
-  const qtd = Math.max(0, Math.min(Math.round(novo), 999));
+  const passo = r.categoriaDe(cat, id) === "doces" ? cat.regras.passoDoces : cat.regras.passoSalgados;
+  const qtd = Math.max(0, Math.min(Math.ceil(novo / passo) * passo, 995)); // sempre de 5 em 5
   carrinho.definirQuantidade(id, qtd);
   if (qtd > antes) aviso(`${r.produto(cat, id).nome}: ${qtd} no pedido`);
 }
@@ -243,14 +245,7 @@ function passoQuantidade(id, delta, botao) {
     const img = botao.closest(".cartao")?.querySelector(".cartao__foto img");
     if (img) voarParaSacola(img.currentSrc || img.src, img.getBoundingClientRect());
   }
-  const atual = carrinho.quantidadeDe(id);
-  const ehSalgado = r.categoriaDe(cat, id) === "salgados";
-  // Primeiro toque no + de um salgado já leva ao mínimo do pedido (25), se ainda não houver salgados.
-  if (ehSalgado && delta > 0 && r.quantidades(cat, carrinho.itens()).salgados === 0) {
-    mudarQuantidade(id, cat.regras.minimoSalgados);
-    return;
-  }
-  mudarQuantidade(id, atual + delta);
+  mudarQuantidade(id, carrinho.quantidadeDe(id) + delta);
 }
 
 function sincronizarQuantidades() {
@@ -268,6 +263,16 @@ function sincronizarQuantidades() {
       estalar(saida);
     }
     $("[data-delta^='-']", caixa).disabled = qtd === 0;
+  }
+  const q = r.quantidades(cat, carrinho.itens());
+  for (const el of $$("[data-progresso]")) {
+    const grupo = el.dataset.progresso;
+    const minimo = grupo === "doces" ? cat.regras.minimoDoces : cat.regras.minimoSalgados;
+    const total = q[grupo];
+    el.textContent = total === 0 ? "" : total < minimo
+      ? `Você tem ${total} ${grupo} no pedido: faltam ${minimo - total} para o mínimo de ${minimo}.`
+      : `✓ ${total} ${grupo} no pedido.`;
+    el.className = `progresso ${total === 0 ? "" : total < minimo ? "progresso--falta" : "progresso--ok"}`;
   }
   for (const el of $$("[data-subtotal]")) {
     const qtd = carrinho.quantidadeDe(el.dataset.subtotal);
@@ -363,7 +368,7 @@ function htmlMontador() {
     corpo = `<p class="nota">Bolo decorado de ${r.formatarKg(kit.boloKg)}, ${soma(kit.salgados)} salgados e ${soma(kit.doces)} doces. Escolha os sabores: o preço do kit não muda (só os adicionais do bolo somam).</p>
       <h3>O bolo</h3>${htmlBoloDecorado(m.bolo)}
       <h3>Os salgados</h3>${htmlDivisao("salgados", `Divida os ${soma(kit.salgados)} salgados`, kit.salgadosDoKit, cat.regras.passoSalgados)}
-      <h3>Os doces</h3>${htmlDivisao("doces", `Divida os ${soma(kit.doces)} doces <small>(de ${cat.regras.passoDocesKit} em ${cat.regras.passoDocesKit})</small>`, Object.keys(kit.doces), cat.regras.passoDocesKit)}`;
+      <h3>Os doces</h3>${htmlDivisao("doces", `Divida os ${soma(kit.doces)} doces <small>(de ${cat.regras.passoDoces} em ${cat.regras.passoDoces})</small>`, Object.keys(kit.doces), cat.regras.passoDoces)}`;
   } else if (m.modo === "empadao") {
     const e = cat.empadao;
     titulo = `${e.nome} ${e.tamanho}`;

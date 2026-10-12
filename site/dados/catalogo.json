@@ -18,9 +18,9 @@
     "datasBloqueadas": [],
     "limitesPorDia": { "salgados": 100, "doces": 100, "boloKg": 10 },
     "minimoSalgados": 25,
+    "minimoDoces": 25,
     "passoSalgados": 5,
-    "passoDoces": 25,
-    "passoDocesKit": 5,
+    "passoDoces": 5,
     "docesPorPessoaKit": 3,
     "salgadosPorPessoaKit": 5,
     "sinal": 0.5
@@ -101,6 +101,7 @@
     }
   ],
   "empadao": {
+    "ativo": false,
     "nome": "Empadão",
     "tamanho": "médio",
     "descricao": "Empadão tamanho médio, com massa amanteigada e o recheio que você escolher.",
@@ -108,7 +109,7 @@
     "precoAConfirmar": true,
     "maxPorItem": 10,
     "foto": "img/fotos/empadao.webp",
-    "sabores": ["Frango", "Frango com catupiry", "Camarão com catupiry", "Charque", "Costela com catupiry"]
+    "sabores": ["Frango", "Frango com catupiry", "Camarão com catupiry", "Costela com cebola caramelizada"]
   },
   "epoca": {
     "nome": "Bolos de época",

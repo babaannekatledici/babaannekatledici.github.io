@@ -92,8 +92,18 @@ test("capacidade de um dia: 100 salgados, 100 doces e 10 kg de bolo", () => {
   assert.match(r.errosDeQuantidade(cat, [itemKit("kit-20"), boloDecorado({ kg: 8.5 })])[0], /mais de 10 kg de bolo/);
 });
 
-test("doces só de 25 em 25", () => {
-  assert.match(r.errosDeQuantidade(cat, [unidade("brigadeiro", 30)])[0], /de 25 em 25/);
+test("doces: mínimo de 25 somando os sabores, cada sabor de 5 em 5", () => {
+  assert.deepEqual(r.errosDeQuantidade(cat, [unidade("brigadeiro", 15), unidade("beijinho", 10)]), []);
+  assert.deepEqual(r.errosDeQuantidade(cat, [unidade("brigadeiro", 30)]), []);
+  assert.deepEqual(r.errosDeQuantidade(cat, [unidade("brigadeiro", 20)]), ["Faltam 5 doces para o mínimo de 25 no pedido."]);
+  assert.match(r.errosDeQuantidade(cat, [unidade("brigadeiro", 17), unidade("beijinho", 10)])[0], /Brigadeiro: de 5 em 5/);
+  // os doces do kit contam para o mínimo: kit de 10 (30 doces) + 5 bem casados pode
+  assert.deepEqual(r.errosDeQuantidade(cat, [itemKit("kit-10"), unidade("bem-casado", 5)]), []);
+});
+
+test("salgados: cada sabor de 5 em 5", () => {
+  assert.deepEqual(r.errosDeQuantidade(cat, [unidade("coxinha", 15), unidade("bolinho-queijo", 10)]), []);
+  assert.match(r.errosDeQuantidade(cat, [unidade("coxinha", 13), unidade("empada", 12)])[0], /Coxinha de frango: de 5 em 5/);
 });
 
 test("bolo de andar só a partir de 1,5 kg", () => {
@@ -224,7 +234,9 @@ test("salgados sempre fritos: o pedido não pergunta mais frito ou congelado", (
 });
 
 test("empadão médio: sabores do catálogo, preço a confirmar até a Doce Maria definir", () => {
-  assert.deepEqual(cat.empadao.sabores, ["Frango", "Frango com catupiry", "Camarão com catupiry", "Charque", "Costela com catupiry"]);
+  // fora do site até a ficha técnica ficar pronta; os sabores já ficam guardados
+  assert.equal(cat.empadao.ativo, false);
+  assert.deepEqual(cat.empadao.sabores, ["Frango", "Frango com catupiry", "Camarão com catupiry", "Costela com cebola caramelizada"]);
   assert.equal(r.precoItem(cat, empadao("Charque", 2)), null);
   const t = r.totais(cat, [itemKit("kit-10"), empadao("Charque", 2)], { modo: "retirada" });
   assert.deepEqual(t, { subtotal: 230, taxa: 0, total: 230, aConfirmar: ["empadão"] });

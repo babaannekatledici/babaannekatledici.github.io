@@ -42,7 +42,8 @@ for (const k of cat.kits) {
   const salgados = Object.values(k.salgados).reduce((a, b) => a + b, 0);
   const doces = Object.values(k.doces).reduce((a, b) => a + b, 0);
   if (salgados > cat.regras.limitesPorDia.salgados || doces > cat.regras.limitesPorDia.doces) erro(`${k.id}: passa da capacidade de um dia`);
-  if (Object.values(k.doces).some((q) => q % cat.regras.passoDocesKit !== 0)) erro(`${k.id}: doces fora do passo de ${cat.regras.passoDocesKit}`);
+  if (Object.values(k.doces).some((q) => q % cat.regras.passoDoces !== 0)) erro(`${k.id}: doces fora do passo de ${cat.regras.passoDoces}`);
+  if (Object.values(k.salgados).some((q) => q % cat.regras.passoSalgados !== 0)) erro(`${k.id}: salgados fora do passo de ${cat.regras.passoSalgados}`);
   if (salgados !== k.pessoas * cat.regras.salgadosPorPessoaKit) erro(`${k.id}: devia ter ${cat.regras.salgadosPorPessoaKit} salgados por pessoa`);
   if (doces !== k.pessoas * cat.regras.docesPorPessoaKit) erro(`${k.id}: devia ter ${cat.regras.docesPorPessoaKit} doces por pessoa`);
   if (!precoOk(precoKitBase(cat, k), 2000)) erro(`${k.id}: preço do kit absurdo`);
