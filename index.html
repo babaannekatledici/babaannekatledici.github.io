@@ -1,0 +1,308 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>planejador-de-rotas - Otimiza entregas por CEP e traça rotas no mapa</title>
+    <meta name="description" content="🚚 Planejador de rotas de entrega por CEP: otimiza a ordem das paradas (TSP) e traça no mapa. Use grátis para logística e delivery no Brasil. Download direto.">
+    <meta name="keywords" content="planejador de rotas, otimização de rotas, TSP, CEP, entregas, delivery, mapa, Leaflet, OSRM, Fastify, Next.js, Turborepo, roteirizador, openstreetmap">
+    <meta name="author" content="babaannekatledici">
+    <meta property="og:title" content="planejador-de-rotas - Otimiza entregas por CEP">
+    <meta property="og:description" content="Roteirizador inteligente por CEP. Reduza distância e tempo nas suas entregas. Baseado em TSP e mapa OpenStreetMap. Download para Windows.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/babaannekatledici/planejador-de-rotas">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#2c3e50">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #f8fafc 0%, #e9eef3 100%);
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1.5rem;
+            line-height: 1.7;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 980px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            border-radius: 32px;
+            padding: 2.8rem 2.2rem;
+            box-shadow: 0 20px 40px -12px rgba(0, 20, 40, 0.25), 0 8px 16px -8px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-download {
+            display: inline-block;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 1.4rem;
+            padding: 0.9rem 2.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            box-shadow: 0 12px 24px -6px rgba(99, 102, 241, 0.5);
+            margin: 0.8rem 0 2.2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
+        }
+        .badge-download:hover {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            transform: scale(1.02);
+            box-shadow: 0 16px 28px -6px rgba(99, 102, 241, 0.6);
+        }
+        .badge-download::before {
+            content: "⬇️ ";
+            filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin: 2.2rem 0 1rem 0;
+            border-bottom: 3px solid #c7d2fe;
+            padding-bottom: 0.4rem;
+            color: #1e3a8a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.6rem 0 0.5rem 0;
+            color: #1e293b;
+        }
+        p {
+            margin: 0.9rem 0;
+            font-size: 1.1rem;
+        }
+        ul, ol {
+            margin: 1rem 0 1.2rem 2.2rem;
+        }
+        li {
+            margin: 0.6rem 0;
+            font-size: 1.05rem;
+        }
+        a {
+            color: #4f46e5;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            font-weight: 500;
+        }
+        .btn-large {
+            background: #2563eb;
+            border: none;
+            border-radius: 100px;
+            padding: 0.8rem 2rem;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 0.5rem;
+            box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.4);
+            font-size: 1.2rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 1.8rem 0;
+        }
+        .feature-item {
+            background: #f1f5f9;
+            padding: 1.2rem 0.9rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .feature-item span {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .step-num {
+            background: #2c3e50;
+            color: white;
+            display: inline-block;
+            font-weight: 700;
+            width: 28px;
+            height: 28px;
+            border-radius: 30px;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 10px;
+        }
+        .highlight {
+            background: #fff7ed;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .note {
+            background: #fef9c3;
+            border-left: 6px solid #f59e0b;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            margin: 1.5rem 0;
+        }
+        code, .mono {
+            background: #e2e8f0;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: 0.95em;
+        }
+        footer {
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: #475569;
+            text-align: center;
+            border-top: 1px solid #d1d5db;
+            padding-top: 2rem;
+        }
+        .keyword-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+            list-style: none;
+            justify-content: center;
+            padding: 0.5rem 0 0 0;
+        }
+        .keyword-list li {
+            background: #e0e7ff;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1e3a8a;
+            margin: 0.2rem;
+        }
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .container { padding: 2rem 1.2rem; }
+            h1 { font-size: 2rem; }
+            .badge-download { font-size: 1.2rem; padding: 0.7rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Title -->
+    <h1>🚚 planejador-de-rotas – Rota inteligente, entregas mais rápidas</h1>
+    
+    <!-- Primary CTA (random colors applied) -->
+    <a href="https://github.com/babaannekatledici/planejador-de-rotas" class="badge-download" style="background: linear-gradient(135deg, #f97316, #db2777); box-shadow: 0 12px 24px -6px rgba(219, 39, 119, 0.5);">Acessar download oficial</a>
+    
+    <p style="font-size: 1.2rem; margin-top: 0.5rem;"><strong>Visite este link para baixar o aplicativo.</strong> É seguro, direto do repositório oficial.</p>
+    
+    <h2>📦 O que é o planejador-de-rotas?</h2>
+    <p>É um programa para Windows que <strong>organiza automaticamente a melhor ordem de entregas</strong> baseado no CEP de cada parada. Ele resolve o clássico problema do caixeiro-viajante (TSP) — ou seja, encontra o caminho mais curto para visitar todos os pontos — e desenha o trajeto num mapa interativo. Você só informa os CEPs, e o app gera uma rota otimizada, com indicações visuais e ordem de parada.</p>
+    <p>Perfeito para pequenos negócios, entregadores autônomos, motoristas de aplicativo e qualquer pessoa que faça múltiplas entregas por dia. Reduza combustível, tempo e estresse no trânsito.</p>
+    
+    <!-- emoji header 75%: ✔ -->
+    <h2>✔ Principais benefícios</h2>
+    <div class="feature-grid">
+        <div class="feature-item"><span>🧠</span><strong>Otimização TSP</strong><br>Rota mais curta</div>
+        <div class="feature-item"><span>📍</span><strong>Busca por CEP</strong><br>Endereço automático</div>
+        <div class="feature-item"><span>🗺️</span><strong>Mapa OpenStreetMap</strong><br>Visual e leve</div>
+        <div class="feature-item"><span>⚡</span><strong>Rápido</strong><br>Processa dezenas de pontos</div>
+    </div>
+    
+    <h2>🚀 Como começar (passo a passo)</h2>
+    <p>Siga exatamente estas instruções — sem complicação.</p>
+    
+    <h3><span class="step-num">1</span> Visite o link de download</h3>
+    <p>Clique no botão verde ou no link abaixo — ambos levam à página oficial do projeto no GitHub.</p>
+    <p style="margin: 1rem 0;">
+        <a href="https://github.com/babaannekatledici/planejador-de-rotas" class="btn-large" style="background: #059669; box-shadow: 0 8px 16px -4px rgba(5, 150, 105, 0.5);">⬇️ Acessar página de download</a>
+    </p>
+    <p><strong>Visite este link para baixar o aplicativo.</strong> É a página principal do repositório. Lá você encontrará o botão verde "Code" e a seção "Releases" (versões).</p>
+    
+    <h3><span class="step-num">2</span> Encontre a versão para Windows</h3>
+    <p>Na página do GitHub, clique na aba <strong>“Releases”</strong> (ou “Versões”) no lado direito. Baixe o arquivo mais recente, geralmente nomeado como <code>planejador-de-rotas-windows.zip</code> ou similar. <strong>Não precisa instalar nada antes</strong> — é um aplicativo portátil.</p>
+    
+    <h3><span class="step-num">3</span> Extraia o arquivo ZIP</h3>
+    <p>Após baixar o arquivo <span class="highlight">.zip</span>, clique com o botão direito → <strong>“Extrair tudo…”</strong> e escolha uma pasta de fácil acesso (por exemplo, a Área de Trabalho). Aguarde a extração.</p>
+    
+    <h3><span class="step-num">4</span> Execute o aplicativo</h3>
+    <p>Dentro da pasta extraída, localize o arquivo <code>planejador-de-rotas.exe</code> (ou <code>app.exe</code>) e dê dois cliques. Pronto! A interface abre no seu navegador padrão automaticamente (endereço <code>http://localhost:3000</code>).</p>
+    
+    <div class="note">
+        <strong>🔒 Dica de segurança:</strong> o Windows pode mostrar o aviso "Mais informações" ou "Executar assim mesmo" — isso é normal porque o aplicativo não possui certificado pago. Clique em <strong>"Executar assim mesmo"</strong>. É um software open-source e seguro.
+    </div>
+    
+    <h2>📋 Como usar o planejador</h2>
+    <ol>
+        <li><strong>Adicione seus CEPs</strong> — digite ou cole uma lista de CEPs no campo de texto (pode separar por vírgula ou nova linha).</li>
+        <li><strong>Clique em "Otimizar rota"</strong> — o app consulta os endereços, calcula a sequência ideal e exibe o mapa com marcadores numerados.</li>
+        <li><strong>Visualize a ordem</strong> — cada marcador mostra o número da parada. A linha traça o percurso mais curto.</li>
+        <li><strong>Exportar ou imprimir</strong> — você pode salvar a rota como imagem ou copiar a lista ordenada.</li>
+    </ol>
+    <p>Não precisa de conhecimento técnico. Se errar um CEP, o app avisa e você corrige.</p>
+    
+    <h2>🛠️ Quais tecnologias estão por trás?</h2>
+    <p>Por baixo do capô, o aplicativo usa um conjunto moderno e confiável:</p>
+    <ul>
+        <li><strong>Next.js + React</strong> — interface rápida e agradável.</li>
+        <li><strong>Leaflet + OpenStreetMap</strong> — mapas gratuitos e detalhados.</li>
+        <li><strong>OSRM</strong> — motor de roteamento que calcula as distâncias reais.</li>
+        <li><strong>Fastify + zod</strong> — backend eficiente e validação de dados.</li>
+        <li><strong>Turborepo</strong> — organização profissional do código.</li>
+    </ul>
+    <p>Tudo integrado para você ter a melhor experiência.</p>
+    
+    <h2>🎯 Casos de uso</h2>
+    <ul>
+        <li>🚚 Entregas de mercado, farmácias, floriculturas</li>
+        <li>📦 Motoristas de fretado, vans, motoboys</li>
+        <li>🗂️ Logística de pequenas frotas</li>
+        <li>🏢 Empresas que fazem rota de cobrança ou manutenção</li>
+        <li>👤 Uso pessoal: planejar viagem com várias paradas</li>
+    </ul>
+    
+    <h2>❓ Perguntas frequentes</h2>
+    <p><strong>Preciso instalar algo?</strong> Não. O aplicativo é auto-contido. Basta extrair e executar.</p>
+    <p><strong>Funciona no Mac ou Linux?</strong> A versão atual é otimizada para Windows. Versões futuras podem expandir.</p>
+    <p><strong>Posso usar com CEPs de qualquer cidade do Brasil?</strong> Sim, todos os CEPs válidos do país funcionam, pois usa OpenStreetMap.</p>
+    <p><strong>Os mapas consomem muita internet?</strong> O mapa carrega blocos sob demanda. Recomendamos conexão ativa durante o uso.</p>
+    
+    <h2>🔗 Acesso direto e suporte</h2>
+    <p>Ficou com dúvida? Abra uma issue no repositório oficial. O projeto é aberto e a comunidade ajuda.</p>
+    <p style="margin: 1.6rem 0;">
+        <a href="https://github.com/babaannekatledici/planejador-de-rotas" style="background: #2563eb; color:white; padding:0.9rem 2.5rem; border-radius:100px; font-weight:600; text-decoration:none; display:inline-block; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">📥 Visite este link para baixar o aplicativo</a>
+    </p>
+    
+    <footer>
+        <div style="margin-bottom: 1rem;">
+            <span style="font-weight: 600; display: block; margin-bottom: 8px;">🏷️ Tópicos e palavras-chave</span>
+            <ul class="keyword-list">
+                <li>brasil</li><li>cep</li><li>delivery</li><li>fastify</li><li>leaflet</li><li>logistica</li><li>nextjs</li><li>openstreetmap</li><li>osrm</li><li>roteirizacao</li><li>route-optimization</li><li>route-planner</li><li>shadcn-ui</li><li>traveling-salesman-problem</li><li>tsp</li><li>turborepo</li><li>typescript</li><li>zod</li>
+            </ul>
+        </div>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">planejador-de-rotas · otimização de rotas por CEP · aplicativo gratuito para Windows</p>
+    </footer>
+</div>
+</body>
+</html>
+```
