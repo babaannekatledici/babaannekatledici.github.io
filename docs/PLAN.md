@@ -21,10 +21,10 @@ A Doce Maria (Ipsep, Recife) vende bolos, doces e mini salgados só por encomend
 | Salgados | R$ 2 (coxinha, empada, bolinho de queijo); mínimo 25 no total, depois qualquer quantidade de cada sabor; sempre fritos (D24) |
 | Empadão médio | 5 sabores, 1 a 10 por sabor; preço a confirmar (D23) |
 | Doces | R$ 1,50; de 25 em 25 |
-| Kits | 10 / 15 / 20 pessoas = R$ 260 / R$ 390 / R$ 520 (D5, aprovados) |
+| Kits | 10 / 15 / 20 pessoas = R$ 230 / R$ 345 / R$ 460; 5 salgados e 3 doces por pessoa (D32) |
 | Limite por pedido | 100 salgados, 100 doces, 10 kg de bolo (somando kits); acima disso → "fale com a Doce Maria" |
 | Entrega | retirada grátis (Rua Rio Ipojuca, 60, Ipsep); entrega dela com taxa estimada por bairro até 10 km de carro, 54 bairros (D25, [BAIRROS.md](BAIRROS.md)); Uber/99 do cliente (bolo só de carro, D12) |
-| Pagamento | Pix do **valor integral** depois que ela confirma, ou dinheiro na entrega ou na retirada; com Uber/99 do cliente, só Pix (D8). Desistência até 12 h antes devolve 70% (D17) |
+| Pagamento | Sinal de 50% no Pix depois da confirmação + 50% na entrega/retirada, ou 100% no Pix; com Uber/99 só 100%. Desistência: sinal não é devolvido (D31) |
 | Item sem preço | aparece "a confirmar" e o total diz "+ itens a confirmar"; nunca um número inventado |
 
 ## 3. Arquitetura

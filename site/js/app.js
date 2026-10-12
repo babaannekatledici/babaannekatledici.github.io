@@ -45,6 +45,27 @@ function itemValido(item) {
   return Number.isFinite(r.precoItem(cat, item));
 }
 
+/**
+ * No computador do Diego (127.0.0.1), troca fotos pelas de teste de `dados/fotos-locais.json`.
+ * Essas fotos não têm licença e ficam fora do Git (D30); no site publicado, nada muda.
+ */
+async function aplicarFotosLocais() {
+  if (!["127.0.0.1", "localhost"].includes(location.hostname)) return;
+  try {
+    const resposta = await fetch("dados/fotos-locais.json", { cache: "no-cache" });
+    if (!resposta.ok) return;
+    const { fotos } = await resposta.json();
+    for (const [id, src] of Object.entries(fotos)) {
+      const bolo = id.startsWith("bolo-") ? cat.bolos[id.slice(5)] : null;
+      const produto = [...cat.salgados, ...cat.doces].find((x) => x.id === id);
+      if (bolo) bolo.foto = src;
+      else if (produto) produto.foto = src;
+    }
+  } catch {
+    // sem fotos locais: usa as do catálogo
+  }
+}
+
 async function iniciar() {
   try {
     const resposta = await fetch("dados/catalogo.json", { cache: "no-cache" });
@@ -54,6 +75,7 @@ async function iniciar() {
     $("main").insertAdjacentHTML("afterbegin", `<p class="alerta container" style="margin-top:1rem">Não consegui carregar o cardápio. Recarregue a página ou chame no WhatsApp (81) 98818-6706.</p>`);
     return;
   }
+  await aplicarFotosLocais();
   carrinho = criarCarrinho(armazenamento(), itemValido);
   desenharFixos();
   desenharKits();
@@ -341,7 +363,7 @@ function htmlMontador() {
     corpo = `<p class="nota">Bolo decorado de ${r.formatarKg(kit.boloKg)}, ${soma(kit.salgados)} salgados e ${soma(kit.doces)} doces. Escolha os sabores: o preço do kit não muda (só os adicionais do bolo somam).</p>
       <h3>O bolo</h3>${htmlBoloDecorado(m.bolo)}
       <h3>Os salgados</h3>${htmlDivisao("salgados", `Divida os ${soma(kit.salgados)} salgados`, kit.salgadosDoKit, cat.regras.passoSalgados)}
-      <h3>Os doces</h3>${htmlDivisao("doces", `Divida os ${soma(kit.doces)} doces <small>(de ${cat.regras.passoDoces} em ${cat.regras.passoDoces})</small>`, Object.keys(kit.doces), cat.regras.passoDoces)}`;
+      <h3>Os doces</h3>${htmlDivisao("doces", `Divida os ${soma(kit.doces)} doces <small>(de ${cat.regras.passoDocesKit} em ${cat.regras.passoDocesKit})</small>`, Object.keys(kit.doces), cat.regras.passoDocesKit)}`;
   } else if (m.modo === "empadao") {
     const e = cat.empadao;
     titulo = `${e.nome} ${e.tamanho}`;
@@ -567,9 +589,10 @@ function desenharCarrinho() {
 
         <fieldset class="grupo" data-campo="pagamento"><legend>Pagamento</legend>
           <div class="opcoes">
-            ${opcao("pagamento", "pix", "💠", "Pix", "Valor total, depois que a Doce Maria confirmar o pedido.")}
-            ${opcao("pagamento", "dinheiro", "💵", "Dinheiro", "")}
+            ${opcao("pagamento", "sinal", "💠", "Sinal de 50% agora", "")}
+            ${opcao("pagamento", "integral", "✅", "Pagar 100% agora", "")}
           </div>
+          <p class="dica">O Pix é feito depois que a Doce Maria confirmar a data e os valores.</p>
           <p class="erro" data-erro="pagamento"></p></fieldset>
 
         <div class="campo"><label for="p-obs">Observações <small>(alergia, tema, cores...)</small></label>
@@ -577,9 +600,9 @@ function desenharCarrinho() {
       </form>
       <div class="resumo" data-resumo aria-live="polite"></div>
       <ul class="combinados--curto">
-        <li>Pix do valor total depois da confirmação, ou dinheiro na entrega/retirada.</li>
+        <li>Sinal de ${Math.round(cat.regras.sinal * 100)}% no Pix para confirmar; o restante na entrega ou retirada (ou 100% de uma vez).</li>
         <li>Pedido confirmado não pode ser alterado.</li>
-        <li>Desistência até ${cat.regras.prazoDesistenciaHoras} h antes: a Doce Maria devolve ${Math.round(cat.regras.devolucaoDesistencia * 100)}% do valor pago.</li>
+        <li>Se desistir, o sinal não é devolvido.</li>
       </ul>
     </div>
     <div class="painel__rodape">
@@ -620,19 +643,22 @@ function atualizarFormulario() {
   $("[data-so-entrega]", caixa).hidden = dados.modo !== "entrega";
   $("[data-so-outro]", caixa).hidden = dados.bairro !== r.OUTRO_BAIRRO;
 
-  // pagamento: com Uber/99 só Pix
-  const dinheiroInput = $("input[name='pagamento'][value='dinheiro']", form);
-  dinheiroInput.disabled = !r.pagamentosPermitidos(dados.modo || "retirada").includes("dinheiro");
-  if (dinheiroInput.disabled && dados.pagamento === "dinheiro") {
+  // pagamento: sinal de 50% ou 100%; com Uber/99, só 100%
+  const t = r.totais(cat, itens, dados);
+  const sinalInput = $("input[name='pagamento'][value='sinal']", form);
+  sinalInput.disabled = !r.pagamentosPermitidos(dados.modo || "retirada").includes("sinal");
+  if (sinalInput.disabled && dados.pagamento === "sinal") {
     dados.pagamento = "";
-    dinheiroInput.checked = false;
+    sinalInput.checked = false;
   }
-  $("[data-desc='pagamento-dinheiro']", caixa).textContent = dinheiroInput.disabled
-    ? "Com Uber ou 99, o pagamento é só no Pix."
-    : dados.modo === "entrega" ? "Você paga na entrega." : "Você paga na retirada.";
+  const sinal = r.valoresPagamento(cat, t.total, "sinal");
+  const pendente = t.aConfirmar.length ? " + metade do que estiver a confirmar" : "";
+  $("[data-desc='pagamento-sinal']", caixa).textContent = sinalInput.disabled
+    ? "Com Uber ou 99, o pagamento é 100% no Pix."
+    : `${dinheiro(sinal.agora)} no Pix${pendente}. O resto (${dinheiro(sinal.depois)}) ${dados.modo === "entrega" ? "na entrega" : "na retirada"}, no Pix ou em dinheiro.`;
+  $("[data-desc='pagamento-integral']", caixa).textContent = `${dinheiro(t.total)} no Pix${t.aConfirmar.length ? " + o que estiver a confirmar" : ""}.`;
 
   // resumo
-  const t = r.totais(cat, itens, dados);
   let linhaEntrega = "";
   if (dados.modo === "entrega") linhaEntrega = `<div><span>Entrega</span><span>${t.taxa === null ? "a confirmar" : `${dinheiro(t.taxa)} (estimada)`}</span></div>`;
   if (dados.modo === "retirada") linhaEntrega = `<div><span>Retirada</span><span>grátis</span></div>`;

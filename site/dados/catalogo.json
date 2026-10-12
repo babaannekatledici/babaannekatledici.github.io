@@ -20,8 +20,10 @@
     "minimoSalgados": 25,
     "passoSalgados": 5,
     "passoDoces": 25,
-    "devolucaoDesistencia": 0.7,
-    "prazoDesistenciaHoras": 12
+    "passoDocesKit": 5,
+    "docesPorPessoaKit": 3,
+    "salgadosPorPessoaKit": 5,
+    "sinal": 0.5
   },
   "bolos": {
     "decorado": {
@@ -85,17 +87,17 @@
     {
       "id": "kit-10", "nome": "Kit Festa 10", "pessoas": 10, "boloKg": 1, "foto": "img/fotos/kit-10.webp",
       "salgadosDoKit": ["coxinha", "empada"], "salgados": { "coxinha": 25, "empada": 25 },
-      "doces": { "brigadeiro": 25, "beijinho": 25, "bem-casado": 0 }
+      "doces": { "brigadeiro": 15, "beijinho": 15, "bem-casado": 0 }
     },
     {
       "id": "kit-15", "nome": "Kit Festa 15", "pessoas": 15, "boloKg": 1.5, "foto": "img/fotos/kit-15.webp",
       "salgadosDoKit": ["coxinha", "empada"], "salgados": { "coxinha": 40, "empada": 35 },
-      "doces": { "brigadeiro": 25, "beijinho": 25, "bem-casado": 25 }
+      "doces": { "brigadeiro": 15, "beijinho": 15, "bem-casado": 15 }
     },
     {
       "id": "kit-20", "nome": "Kit Festa 20", "pessoas": 20, "boloKg": 2, "foto": "img/fotos/kit-20.webp",
       "salgadosDoKit": ["coxinha", "empada"], "salgados": { "coxinha": 50, "empada": 50 },
-      "doces": { "brigadeiro": 50, "beijinho": 25, "bem-casado": 25 }
+      "doces": { "brigadeiro": 20, "beijinho": 20, "bem-casado": 20 }
     }
   ],
   "empadao": {

@@ -30,16 +30,16 @@ test("formata dinheiro e peso em português", () => {
   assert.equal(r.formatarKg(2), "2 kg");
 });
 
-test("kits custam a soma das partes: R$ 260, 390 e 520 (R$ 26 por pessoa)", () => {
-  assert.deepEqual(cat.kits.map((k) => r.precoKitBase(cat, k)), [260, 390, 520]);
-  for (const k of cat.kits) assert.equal(r.precoKitBase(cat, k) / k.pessoas, 26);
+test("kits custam a soma das partes: R$ 230, 345 e 460 (R$ 23 por pessoa)", () => {
+  assert.deepEqual(cat.kits.map((k) => r.precoKitBase(cat, k)), [230, 345, 460]);
+  for (const k of cat.kits) assert.equal(r.precoKitBase(cat, k) / k.pessoas, 23);
 });
 
-test("kits têm 100 g de bolo e 5 salgados e 5 doces por pessoa", () => {
+test("kits têm 100 g de bolo, 5 salgados e 3 doces por pessoa (mais salgado que doce)", () => {
   for (const k of cat.kits) {
     assert.equal(k.boloKg, k.pessoas / 10);
     assert.equal(Object.values(k.salgados).reduce((a, b) => a + b), k.pessoas * 5);
-    assert.equal(Object.values(k.doces).reduce((a, b) => a + b), k.pessoas * 5);
+    assert.equal(Object.values(k.doces).reduce((a, b) => a + b), k.pessoas * 3);
   }
 });
 
@@ -54,7 +54,7 @@ test("preço dos bolos: R$ 85/kg decorado, + R$ 10/kg por adicional; caseiro R$ 
 test("adicional no bolo do kit cobra pelo peso do bolo do kit", () => {
   const item = itemKit("kit-15");
   item.bolo.adicionais = ["morango"];
-  assert.equal(r.precoItem(cat, item), 405);
+  assert.equal(r.precoItem(cat, item), 360);
 });
 
 test("salgados e doces avulsos: preço × quantidade sem erro de centavos", () => {
@@ -70,7 +70,7 @@ test("fatias aproximadas", () => {
 
 test("quantidades somam kits e avulsos", () => {
   const q = r.quantidades(cat, [itemKit("kit-10"), unidade("bolinho-queijo", 10), unidade("beijinho", 25), empadao("Charque", 2)]);
-  assert.deepEqual(q, { salgados: 60, doces: 75, boloKg: 1, empadoes: 2, temBolo: true, temTopo: false });
+  assert.deepEqual(q, { salgados: 60, doces: 55, boloKg: 1, empadoes: 2, temBolo: true, temTopo: false });
 });
 
 test("mínimo de 25 salgados no total do pedido", () => {
@@ -173,16 +173,20 @@ test("data por extenso", () => {
   assert.equal(r.formatarHorario(r.montarHorario("2026-10-17", 15)), "sábado, 17/10, às 15h");
 });
 
-test("pagamento: com Uber/99 só Pix; retirada e entrega aceitam dinheiro", () => {
-  assert.deepEqual(r.pagamentosPermitidos("app"), ["pix"]);
-  assert.deepEqual(r.pagamentosPermitidos("entrega"), ["pix", "dinheiro"]);
-  assert.deepEqual(r.pagamentosPermitidos("retirada"), ["pix", "dinheiro"]);
+test("pagamento: sinal de 50% ou 100%; com Uber/99 só 100%", () => {
+  assert.deepEqual(r.pagamentosPermitidos("app"), ["integral"]);
+  assert.deepEqual(r.pagamentosPermitidos("entrega"), ["sinal", "integral"]);
+  assert.deepEqual(r.pagamentosPermitidos("retirada"), ["sinal", "integral"]);
+  assert.deepEqual(r.valoresPagamento(cat, 420, "sinal"), { agora: 210, depois: 210 });
+  assert.deepEqual(r.valoresPagamento(cat, 455.5, "sinal"), { agora: 227.75, depois: 227.75 });
+  assert.deepEqual(r.valoresPagamento(cat, 100.01, "sinal"), { agora: 50.01, depois: 50 });
+  assert.deepEqual(r.valoresPagamento(cat, 420, "integral"), { agora: 420, depois: 0 });
 });
 
 test("totais com taxa estimada, taxa a confirmar e topo a confirmar", () => {
   const itens = [itemKit("kit-15"), unidade("bolinho-queijo", 25)];
-  assert.deepEqual(r.totais(cat, itens, { modo: "entrega", bairro: "Boa Viagem" }), { subtotal: 440, taxa: 10, total: 450, aConfirmar: [] });
-  assert.deepEqual(r.totais(cat, itens, { modo: "retirada" }), { subtotal: 440, taxa: 0, total: 440, aConfirmar: [] });
+  assert.deepEqual(r.totais(cat, itens, { modo: "entrega", bairro: "Boa Viagem" }), { subtotal: 395, taxa: 10, total: 405, aConfirmar: [] });
+  assert.deepEqual(r.totais(cat, itens, { modo: "retirada" }), { subtotal: 395, taxa: 0, total: 395, aConfirmar: [] });
   assert.deepEqual(r.totais(cat, itens, { modo: "entrega", bairro: r.OUTRO_BAIRRO }).aConfirmar, ["entrega"]);
   const comTopo = [boloDecorado({ topo: true })];
   assert.deepEqual(r.totais(cat, comTopo, { modo: "app" }), { subtotal: 170, taxa: 0, total: 170, aConfirmar: ["topo"] });
@@ -190,7 +194,7 @@ test("totais com taxa estimada, taxa a confirmar e topo a confirmar", () => {
 
 const pedidoValido = () => ({
   nome: "Maria Silva", data: "2026-10-14", hora: "15", modo: "entrega", bairro: "Boa Viagem",
-  bairroOutro: "", endereco: "Rua X, 123", referencia: "", pagamento: "pix", observacoes: "",
+  bairroOutro: "", endereco: "Rua X, 123", referencia: "", pagamento: "sinal", observacoes: "",
 });
 
 test("pedido completo e válido não tem erros", () => {
@@ -205,8 +209,8 @@ test("pedido inválido aponta cada campo", () => {
   assert.deepEqual(Object.keys(r.validarPedido(cat, [itemKit("kit-10")], semBairro, agora)).sort(), ["bairro", "endereco"]);
   const outroSemNome = { ...pedidoValido(), bairro: r.OUTRO_BAIRRO, bairroOutro: " " };
   assert.equal(r.validarPedido(cat, [itemKit("kit-10")], outroSemNome, agora).bairro, "Escreva o nome do bairro.");
-  const dinheiroNoApp = { ...pedidoValido(), modo: "app", pagamento: "dinheiro" };
-  assert.equal(r.validarPedido(cat, [itemKit("kit-10")], dinheiroNoApp, agora).pagamento, "Quem chama Uber ou 99 paga no Pix.");
+  const sinalNoApp = { ...pedidoValido(), modo: "app", pagamento: "sinal" };
+  assert.equal(r.validarPedido(cat, [itemKit("kit-10")], sinalNoApp, agora).pagamento, "Quem chama Uber ou 99 paga 100% no Pix.");
   const cedo = { ...pedidoValido(), data: "2026-10-13" };
   assert.match(r.validarPedido(cat, [itemKit("kit-10")], cedo, agora).horario, /48 horas/);
   const topoCedo = { ...pedidoValido(), data: "2026-10-15" };
@@ -223,7 +227,7 @@ test("empadão médio: sabores do catálogo, preço a confirmar até a Doce Mari
   assert.deepEqual(cat.empadao.sabores, ["Frango", "Frango com catupiry", "Camarão com catupiry", "Charque", "Costela com catupiry"]);
   assert.equal(r.precoItem(cat, empadao("Charque", 2)), null);
   const t = r.totais(cat, [itemKit("kit-10"), empadao("Charque", 2)], { modo: "retirada" });
-  assert.deepEqual(t, { subtotal: 260, taxa: 0, total: 260, aConfirmar: ["empadão"] });
+  assert.deepEqual(t, { subtotal: 230, taxa: 0, total: 230, aConfirmar: ["empadão"] });
   // quando ela passar o preço, basta preencher no catálogo
   const c = catalogo();
   c.empadao.preco = 45;

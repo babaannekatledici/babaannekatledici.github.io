@@ -242,9 +242,19 @@ export function taxaPorKm(cat, km) {
   return km <= kmBase ? taxaBase : somar([taxaBase, porKm * Math.ceil(km - kmBase - 1e-9)]);
 }
 
-/** Quem chama Uber/99 paga no Pix (o motorista não recebe pela Doce Maria). */
+/**
+ * Formas de pagar: "sinal" (50% no Pix ao confirmar e 50% na entrega ou retirada) ou "integral" (100% no Pix).
+ * Quem chama Uber/99 paga 100%: o motorista não recebe pela Doce Maria.
+ */
 export function pagamentosPermitidos(modo) {
-  return modo === "app" ? ["pix"] : ["pix", "dinheiro"];
+  return modo === "app" ? ["integral"] : ["sinal", "integral"];
+}
+
+/** Quanto paga agora e quanto fica para a entrega/retirada (em centavos, sem erro de arredondamento). */
+export function valoresPagamento(cat, total, forma) {
+  if (forma !== "sinal") return { agora: total, depois: 0 };
+  const agora = Math.round(total * 100 * cat.regras.sinal) / 100;
+  return { agora, depois: somar([total, -agora]) };
 }
 
 // ---------- Pedido ----------
@@ -293,7 +303,7 @@ export function validarPedido(cat, itens, dados, agoraRecife) {
 
   if (!dados.pagamento) erros.pagamento = "Escolha a forma de pagamento.";
   else if (!pagamentosPermitidos(dados.modo).includes(dados.pagamento)) {
-    erros.pagamento = "Quem chama Uber ou 99 paga no Pix.";
+    erros.pagamento = "Quem chama Uber ou 99 paga 100% no Pix.";
   }
 
   return erros;

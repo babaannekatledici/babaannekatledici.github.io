@@ -3,10 +3,9 @@
 
 import {
   fatias, formatarHorario, formatarKg, formatarMoeda, montarHorario, nomeDoBairro, precoAdicionais,
-  precoBolo, precoItem, produto, quantidades, totais,
+  precoBolo, precoItem, produto, quantidades, totais, valoresPagamento,
 } from "./regras.js";
 
-const MODO_PAGAMENTO = { pix: "Pix", dinheiro: "Dinheiro" };
 
 function linhasBoloDecorado(cat, bolo, kg) {
   const d = cat.bolos.decorado;
@@ -77,8 +76,12 @@ export function montarMensagem(cat, itens, dados) {
     linhaRecebimento(cat, dados, q.temBolo),
   ];
   if (dados.modo === "entrega" && dados.referencia?.trim()) linhas.push(`   Referência: ${dados.referencia.trim()}`);
-  const ondePaga = dados.modo === "entrega" ? " na entrega" : " na retirada";
-  linhas.push(`💳 Pagamento: ${MODO_PAGAMENTO[dados.pagamento]}${dados.pagamento === "dinheiro" ? ondePaga : ""}`);
+  const ondePaga = dados.modo === "entrega" ? "na entrega" : "na retirada";
+  const v = valoresPagamento(cat, t.total, dados.pagamento);
+  const semPendentes = t.aConfirmar.length ? " (sem contar o que está a confirmar)" : "";
+  linhas.push(dados.pagamento === "sinal"
+    ? `💳 Pagamento: sinal de 50% no Pix (${formatarMoeda(v.agora)}) e o restante (${formatarMoeda(v.depois)}) ${ondePaga}${semPendentes}`
+    : `💳 Pagamento: 100% no Pix (${formatarMoeda(v.agora)})${semPendentes}`);
   linhas.push("");
   for (const item of itens) linhas.push(...linhasDoItem(cat, item));
   linhas.push("");
@@ -88,9 +91,9 @@ export function montarMensagem(cat, itens, dados) {
   if (dados.observacoes?.trim()) linhas.push(`📝 Observações: ${dados.observacoes.trim()}`);
   linhas.push("");
   linhas.push(
-    dados.pagamento === "pix"
-      ? "Aguardo a confirmação da data e a chave Pix para o pagamento."
-      : `Aguardo a confirmação da data. Pago em dinheiro${ondePaga}.`,
+    dados.pagamento === "sinal"
+      ? "Aguardo a confirmação da data e a chave Pix para o sinal."
+      : "Aguardo a confirmação da data e a chave Pix para o pagamento.",
   );
   return linhas.join("\n");
 }

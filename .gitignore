@@ -9,3 +9,7 @@ node_modules/
 # Respostas e perguntas da Doce Maria: dados internos do negócio, ficam só neste computador
 docs/RESPOSTAS.md
 docs/PERGUNTAS.md
+
+# Fotos sem licença, só para ver no computador (D30): nunca vão para o GitHub
+site/img/locais/
+site/dados/fotos-locais.json
