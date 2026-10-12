@@ -1,0 +1,13 @@
+{
+  "name": "doce-maria-site",
+  "private": true,
+  "type": "module",
+  "description": "Site de encomendas da Doce Maria (bolos, doces e salgados), Ipsep, Recife.",
+  "scripts": {
+    "test": "node --test \"tests/*.test.mjs\"",
+    "validar": "node scripts/validar-catalogo.mjs",
+    "validar:publicar": "node scripts/validar-catalogo.mjs --publicar",
+    "servir": "python -m http.server 8000 --bind 127.0.0.1 -d site"
+  },
+  "engines": { "node": ">=22" }
+}

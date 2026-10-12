@@ -1,0 +1,11 @@
+# Contexto pessoal (nunca publicar)
+CLAUDE.md
+
+# Sistema
+.DS_Store
+Thumbs.db
+node_modules/
+
+# Respostas e perguntas da Doce Maria: dados internos do negócio, ficam só neste computador
+docs/RESPOSTAS.md
+docs/PERGUNTAS.md

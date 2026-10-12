@@ -1,0 +1,189 @@
+{
+  "loja": {
+    "nome": "Doce Maria",
+    "whatsapp": "5581988186706",
+    "whatsappExibicao": "(81) 98818-6706",
+    "instagram": "docem.s",
+    "endereco": "Rua Rio Ipojuca, 60, Ipsep, Recife - PE",
+    "bairro": "Ipsep",
+    "cnpj": null,
+    "respondeAte": "19h"
+  },
+  "regras": {
+    "antecedenciaHoras": 48,
+    "antecedenciaTopoDias": 5,
+    "horaAbre": 8,
+    "horaFecha": 20,
+    "diasFechados": [0],
+    "datasBloqueadas": [],
+    "limitesPorDia": { "salgados": 100, "doces": 100, "boloKg": 10 },
+    "minimoSalgados": 25,
+    "passoSalgados": 5,
+    "passoDoces": 25,
+    "devolucaoDesistencia": 0.7,
+    "prazoDesistenciaHoras": 12
+  },
+  "bolos": {
+    "decorado": {
+      "nome": "Bolo decorado",
+      "descricao": "Coberto com chantilly espatulado e decorado do seu jeito: cores, tema e formato.",
+      "precoKg": 85,
+      "kgMin": 1,
+      "kgMax": 10,
+      "passoKg": 0.5,
+      "fatiasPorKg": [10, 12],
+      "foto": "img/fotos/bolo-decorado.webp",
+      "massas": ["Branca (baunilha)", "Chocolate"],
+      "recheios": ["Chocolate", "Ninho", "Doce de leite", "Bem casado", "Prestígio", "Ninho com geleia de morango"],
+      "maxRecheios": 2,
+      "formatos": [
+        { "id": "redondo", "nome": "Redondo", "kgMin": 1 },
+        { "id": "retangular", "nome": "Retangular", "kgMin": 1 },
+        { "id": "vulcao", "nome": "Vulcão", "kgMin": 1 },
+        { "id": "andar", "nome": "De andar", "kgMin": 1.5 }
+      ],
+      "adicionais": [
+        { "id": "nutella", "nome": "Nutella", "precoPorKg": 10 },
+        { "id": "morango", "nome": "Morango fresco", "precoPorKg": 10 },
+        { "id": "bombom", "nome": "Bombom", "precoPorKg": 10 }
+      ],
+      "topo": { "nome": "Topo de bolo (papel impresso 3D)", "aPartirDe": 20 }
+    },
+    "caseiro": {
+      "nome": "Bolo caseiro",
+      "descricao": "Receita de casa, sem cobertura: macaxeira, fubá ou massa puba.",
+      "precoKg": 65,
+      "kgMin": 1,
+      "kgMax": 10,
+      "passoKg": 0.5,
+      "fatiasPorKg": [8, 8],
+      "foto": "img/fotos/bolo-caseiro.webp",
+      "sabores": ["Macaxeira", "Fubá", "Massa puba"]
+    },
+    "noiva": {
+      "nome": "Bolo de noiva pernambucano",
+      "descricao": "O tradicional de Pernambuco, coberto com glacê mármore.",
+      "precoKg": 100,
+      "kgMin": 1,
+      "kgMax": 10,
+      "passoKg": 0.5,
+      "fatiasPorKg": [10, 12],
+      "foto": "img/fotos/bolo-noiva.webp"
+    }
+  },
+  "salgados": [
+    { "id": "coxinha", "nome": "Coxinha de frango", "plural": "coxinhas", "preco": 2, "foto": "img/fotos/coxinha.webp" },
+    { "id": "empada", "nome": "Empada de frango", "plural": "empadas", "preco": 2, "foto": "img/fotos/empada.webp" },
+    { "id": "bolinho-queijo", "nome": "Bolinho de queijo", "plural": "bolinhos de queijo", "preco": 2, "foto": "img/fotos/bolinho-queijo.webp" }
+  ],
+  "doces": [
+    { "id": "brigadeiro", "nome": "Brigadeiro", "plural": "brigadeiros", "preco": 1.5, "foto": "img/fotos/brigadeiro.webp" },
+    { "id": "beijinho", "nome": "Beijinho", "plural": "beijinhos", "preco": 1.5, "foto": "img/fotos/beijinho.webp" },
+    { "id": "bem-casado", "nome": "Bem casado", "plural": "bem casados", "preco": 1.5, "foto": "img/fotos/bem-casado.webp" }
+  ],
+  "kits": [
+    {
+      "id": "kit-10", "nome": "Kit Festa 10", "pessoas": 10, "boloKg": 1, "foto": "img/fotos/kit-10.webp",
+      "salgadosDoKit": ["coxinha", "empada"], "salgados": { "coxinha": 25, "empada": 25 },
+      "doces": { "brigadeiro": 25, "beijinho": 25, "bem-casado": 0 }
+    },
+    {
+      "id": "kit-15", "nome": "Kit Festa 15", "pessoas": 15, "boloKg": 1.5, "foto": "img/fotos/kit-15.webp",
+      "salgadosDoKit": ["coxinha", "empada"], "salgados": { "coxinha": 40, "empada": 35 },
+      "doces": { "brigadeiro": 25, "beijinho": 25, "bem-casado": 25 }
+    },
+    {
+      "id": "kit-20", "nome": "Kit Festa 20", "pessoas": 20, "boloKg": 2, "foto": "img/fotos/kit-20.webp",
+      "salgadosDoKit": ["coxinha", "empada"], "salgados": { "coxinha": 50, "empada": 50 },
+      "doces": { "brigadeiro": 50, "beijinho": 25, "bem-casado": 25 }
+    }
+  ],
+  "empadao": {
+    "nome": "Empadão",
+    "tamanho": "médio",
+    "descricao": "Empadão tamanho médio, com massa amanteigada e o recheio que você escolher.",
+    "preco": null,
+    "precoAConfirmar": true,
+    "maxPorItem": 10,
+    "foto": "img/fotos/empadao.webp",
+    "sabores": ["Frango", "Frango com catupiry", "Camarão com catupiry", "Charque", "Costela com catupiry"]
+  },
+  "epoca": {
+    "nome": "Bolos de época",
+    "descricao": "Dia das Mães, São João e Natal. Cada época tem sabores e preços próprios.",
+    "foto": "img/fotos/bolos-epoca.webp"
+  },
+  "entrega": {
+    "raioKm": 10,
+    "taxaBase": 7,
+    "kmBase": 2,
+    "porKm": 1.5,
+    "bairros": [
+      { "nome": "Imbiribeira", "km": 0.7, "taxa": 7 },
+      { "nome": "Ipsep", "km": 0.7, "taxa": 7 },
+      { "nome": "Areias", "km": 2.9, "taxa": 8.5 },
+      { "nome": "Boa Viagem", "km": 3.5, "taxa": 10 },
+      { "nome": "Caçote", "km": 3.5, "taxa": 10 },
+      { "nome": "Barro", "km": 4.9, "taxa": 11.5 },
+      { "nome": "Estância", "km": 4.3, "taxa": 11.5 },
+      { "nome": "Ibura", "km": 4.3, "taxa": 11.5 },
+      { "nome": "Jiquiá", "km": 4.8, "taxa": 11.5 },
+      { "nome": "Afogados", "km": 5.3, "taxa": 13 },
+      { "nome": "Cabanga", "km": 5.2, "taxa": 13 },
+      { "nome": "Cohab", "km": 5.6, "taxa": 13 },
+      { "nome": "Joana Bezerra", "km": 5.9, "taxa": 13 },
+      { "nome": "Bongi", "km": 6.6, "taxa": 14.5 },
+      { "nome": "Coelhos", "km": 6.7, "taxa": 14.5 },
+      { "nome": "Guararapes", "km": 7, "taxa": 14.5 },
+      { "nome": "Ilha do Retiro", "km": 6.2, "taxa": 14.5 },
+      { "nome": "Jardim Jordão", "km": 6.4, "taxa": 14.5 },
+      { "nome": "Jardim São Paulo", "km": 6.5, "taxa": 14.5 },
+      { "nome": "Jordão", "km": 6.2, "taxa": 14.5 },
+      { "nome": "Mangueira", "km": 6.3, "taxa": 14.5 },
+      { "nome": "Mustardinha", "km": 6.5, "taxa": 14.5 },
+      { "nome": "San Martin", "km": 6.6, "taxa": 14.5 },
+      { "nome": "São José", "km": 7, "taxa": 14.5 },
+      { "nome": "Brasília Teimosa", "km": 7.6, "taxa": 16 },
+      { "nome": "Derby", "km": 7.7, "taxa": 16 },
+      { "nome": "Madalena", "km": 7.2, "taxa": 16 },
+      { "nome": "Paissandu", "km": 7.4, "taxa": 16 },
+      { "nome": "Piedade", "km": 8, "taxa": 16 },
+      { "nome": "Pina", "km": 7.6, "taxa": 16 },
+      { "nome": "Prado", "km": 7.7, "taxa": 16 },
+      { "nome": "Santo Antônio", "km": 8, "taxa": 16 },
+      { "nome": "Tejipió", "km": 7.2, "taxa": 16 },
+      { "nome": "Zumbi do Pacheco", "km": 7.7, "taxa": 16 },
+      { "nome": "Coqueiral", "km": 8.8, "taxa": 17.5 },
+      { "nome": "Cordeiro", "km": 9, "taxa": 17.5 },
+      { "nome": "Engenho do Meio", "km": 8.5, "taxa": 17.5 },
+      { "nome": "Ilha do Leite", "km": 8.4, "taxa": 17.5 },
+      { "nome": "Sancho", "km": 8.1, "taxa": 17.5 },
+      { "nome": "Torre", "km": 8.9, "taxa": 17.5 },
+      { "nome": "Torrões", "km": 8.5, "taxa": 17.5 },
+      { "nome": "Totó", "km": 8.7, "taxa": 17.5 },
+      { "nome": "Aflitos", "km": 9.9, "taxa": 19 },
+      { "nome": "Boa Vista", "km": 9.4, "taxa": 19 },
+      { "nome": "Cajueiro Seco", "km": 9.5, "taxa": 19 },
+      { "nome": "Cidade Universitária", "km": 9.5, "taxa": 19 },
+      { "nome": "Curado", "km": 9.6, "taxa": 19 },
+      { "nome": "Espinheiro", "km": 9.8, "taxa": 19 },
+      { "nome": "Graças", "km": 9.2, "taxa": 19 },
+      { "nome": "Jaqueira", "km": 9.6, "taxa": 19 },
+      { "nome": "Santo Amaro", "km": 10, "taxa": 19 },
+      { "nome": "Soledade", "km": 9.4, "taxa": 19 },
+      { "nome": "Sucupira", "km": 9.4, "taxa": 19 },
+      { "nome": "Zumbi", "km": 9.1, "taxa": 19 }
+    ]
+  },
+  "fotos": {
+    "ilustrativas": true,
+    "semLicenca": [],
+    "creditos": [
+      { "foto": "Coxinha", "autor": "Thomas Locke Hobbs", "licenca": "CC BY-SA 2.0", "url": "https://www.flickr.com/photos/22185138@N00/347193328" },
+      { "foto": "Bem casado", "autor": "Jake Gonçalves", "licenca": "CC BY 2.0", "url": "https://www.flickr.com/photos/95039521@N04/9138435790" },
+      { "foto": "Bolinho de queijo", "autor": "Tici Cardoso", "licenca": "CC BY 2.0", "url": "https://www.flickr.com/photos/39307489@N08/3995732873" },
+      { "foto": "Empadão", "autor": "Smabs Sputzer", "licenca": "CC BY 2.0", "url": "https://www.flickr.com/photos/10413717@N08/4344880414" },
+      { "foto": "Demais fotos", "autor": "Pexels", "licenca": "Licença Pexels", "url": "https://www.pexels.com/license/" }
+    ]
+  }
+}

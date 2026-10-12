@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Doce Maria · Bolos, doces e salgados por encomenda no Ipsep</title>
+  <meta name="description" content="Bolos decorados, kits festa, mini salgados e docinhos feitos por encomenda no Ipsep, Recife. Monte seu pedido e envie pelo WhatsApp.">
+  <meta name="theme-color" content="#c2416f">
+  <!-- PRÉVIA: tirar esta linha e o robots.txt no lançamento (D29) -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="Doce Maria · Bolos, doces e salgados por encomenda">
+  <meta property="og:description" content="Monte seu pedido e envie pelo WhatsApp. Entrega até 10 km do Ipsep ou retirada grátis.">
+  <link rel="icon" href="img/favicon-48.png" type="image/png" sizes="48x48">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Nunito:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="preload" as="image" href="img/fotos/hero.webp" fetchpriority="high">
+  <script>document.documentElement.classList.add("js");</script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <div class="container topo__linha">
+      <a class="marca" href="#inicio" aria-label="Doce Maria, início">
+        <img class="marca__logo" src="img/logo-160.webp" alt="" width="48" height="48">
+        <span class="marca__nome">Doce Maria</span>
+      </a>
+      <nav class="menu" aria-label="Seções do cardápio">
+        <a href="#kits" data-secao="kits">Kits</a>
+        <a href="#bolos" data-secao="bolos">Bolos</a>
+        <a href="#salgados" data-secao="salgados">Salgados</a>
+        <a href="#doces" data-secao="doces">Doces</a>
+        <a href="#entrega" data-secao="entrega">Entrega</a>
+      </nav>
+      <button class="botao-sacola" type="button" data-abrir-carrinho aria-label="Ver meu pedido">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="botao-sacola__qtd" data-contador hidden>0</span>
+      </button>
+    </div>
+    <nav class="atalhos" aria-label="Atalhos do cardápio">
+      <div class="atalhos__trilho">
+        <a href="#kits" data-secao="kits"><span aria-hidden="true">🎉</span> Kits</a>
+        <a href="#bolos" data-secao="bolos"><span aria-hidden="true">🎂</span> Bolos</a>
+        <a href="#salgados" data-secao="salgados"><span aria-hidden="true">🥟</span> Salgados</a>
+        <a href="#doces" data-secao="doces"><span aria-hidden="true">🍫</span> Doces</a>
+        <a href="#entrega" data-secao="entrega"><span aria-hidden="true">🚗</span> Entrega</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section class="hero" id="inicio">
+      <div class="hero__fundo" aria-hidden="true">
+        <span class="bolha bolha--1"></span><span class="bolha bolha--2"></span><span class="bolha bolha--3"></span>
+      </div>
+      <div class="container hero__grade">
+        <div class="hero__texto">
+          <p class="pilula"><span aria-hidden="true">💗</span> Doces e salgados feitos para você se apaixonar.</p>
+          <h1>Bolos, doces e salgados para <em class="destaque">adoçar</em> a sua festa</h1>
+          <p class="hero__lead">Tudo por encomenda, feito com carinho. Monte seu pedido aqui e mande pronto no WhatsApp da Doce Maria.</p>
+          <div class="hero__acoes">
+            <a class="botao botao--primario botao--grande" href="#kits">Ver cardápio <span aria-hidden="true">→</span></a>
+            <button class="botao botao--secundario botao--grande" type="button" data-montar="decorado">Montar meu bolo</button>
+          </div>
+          <ul class="selos">
+            <li><span aria-hidden="true">⏰</span> 48h de antecedência</li>
+            <li><span aria-hidden="true">🚗</span> Entrega até 10 km</li>
+            <li><span aria-hidden="true">🏠</span> Retirada grátis</li>
+          </ul>
+        </div>
+        <div class="hero__colagem">
+          <figure class="hero__arco">
+            <img src="img/fotos/hero.webp" alt="Bolo branco decorado com flores cor-de-rosa" width="900" height="900" fetchpriority="high">
+            <figcaption class="selo-ilustrativa" data-ilustrativa hidden>Fotos ilustrativas</figcaption>
+          </figure>
+          <img class="hero__bolinha hero__bolinha--1" src="img/fotos/brigadeiro.webp" alt="" width="800" height="600">
+          <img class="hero__logo" src="img/logo-512.webp" alt="Logo da Doce Maria: bolos, doces e salgados" width="512" height="512">
+          <div class="flutuante flutuante--1">
+            <span class="flutuante__icone" aria-hidden="true">🎉</span>
+            <div><strong>Kits festa</strong><small data-kit-minimo>para 10, 15 e 20 pessoas</small></div>
+          </div>
+          <div class="flutuante flutuante--2">
+            <span class="flutuante__icone" aria-hidden="true">🎂</span>
+            <div><strong>Do seu jeito</strong><small>massa, recheio e tema</small></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="faixa-rolante" aria-hidden="true">
+      <div class="faixa-rolante__trilho">
+        <span>Bolo decorado</span><span>Kit festa</span><span>Brigadeiro</span><span>Coxinha</span><span>Bolo de noiva pernambucano</span><span>Beijinho</span><span>Bolo de macaxeira</span><span>Empada</span><span>Bem casado</span><span>Bolinho de queijo</span><span>Empadão</span>
+        <span>Bolo decorado</span><span>Kit festa</span><span>Brigadeiro</span><span>Coxinha</span><span>Bolo de noiva pernambucano</span><span>Beijinho</span><span>Bolo de macaxeira</span><span>Empada</span><span>Bem casado</span><span>Bolinho de queijo</span><span>Empadão</span>
+      </div>
+    </div>
+
+    <section class="secao" id="kits" aria-labelledby="t-kits">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Para festas</p>
+          <h2 id="t-kits">Kits <em>festa</em></h2>
+          <p>Bolo decorado, salgados e doces na medida: 100 g de bolo, 5 salgados e 5 doces por pessoa. Você escolhe os sabores.</p>
+        </div>
+        <div class="grade grade--kits" data-lista-kits></div>
+        <p class="dica-arrastar" aria-hidden="true">Arraste para ver os outros kits →</p>
+      </div>
+    </section>
+
+    <section class="secao secao--folha" id="bolos" aria-labelledby="t-bolos">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Do seu jeito</p>
+          <h2 id="t-bolos">Nossos <em>bolos</em></h2>
+          <p>Decorado, caseiro ou o tradicional bolo de noiva pernambucano. Preço por quilo, de meio em meio quilo.</p>
+        </div>
+        <div class="grade grade--bolos" data-lista-bolos></div>
+      </div>
+    </section>
+
+    <section class="secao" id="salgados" aria-labelledby="t-salgados">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Mini salgados de 30 g</p>
+          <h2 id="t-salgados">Nossos <em>salgados</em></h2>
+          <p>Mínimo de 25 mini salgados no pedido, somando os sabores. Todos vão fritinhos, prontos para servir. E tem empadão médio com 5 recheios.</p>
+        </div>
+        <div class="grade grade--produtos" data-lista-salgados></div>
+      </div>
+    </section>
+
+    <section class="secao secao--folha" id="doces" aria-labelledby="t-doces">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Docinhos</p>
+          <h2 id="t-doces"><em>Doces</em> de festa</h2>
+          <p>Vendidos de 25 em 25 unidades.</p>
+        </div>
+        <div class="grade grade--produtos" data-lista-doces></div>
+      </div>
+    </section>
+
+    <section class="secao" id="epoca" aria-labelledby="t-epoca">
+      <div class="container">
+        <article class="cartao cartao--epoca" data-epoca></article>
+      </div>
+    </section>
+
+    <section class="secao secao--folha" id="como-funciona" aria-labelledby="t-como">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Simples assim</p>
+          <h2 id="t-como">Como <em>funciona</em></h2>
+        </div>
+        <ol class="passos">
+          <li><span class="passos__icone" aria-hidden="true">🛍️</span><span class="passos__n">Passo 1</span><strong>Monte seu pedido</strong><span>Escolha kits, bolos, salgados e doces.</span></li>
+          <li><span class="passos__icone" aria-hidden="true">📅</span><span class="passos__n">Passo 2</span><strong>Escolha data e entrega</strong><span>Retirada grátis ou entrega até 10 km.</span></li>
+          <li><span class="passos__icone" aria-hidden="true">💬</span><span class="passos__n">Passo 3</span><strong>Envie pelo WhatsApp</strong><span>A mensagem já vai pronta, é só tocar em enviar.</span></li>
+          <li><span class="passos__icone" aria-hidden="true">💖</span><span class="passos__n">Passo 4</span><strong>Confirme e pague</strong><span>A Doce Maria confirma a data. Pix, ou dinheiro na entrega ou retirada.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="secao" id="entrega" aria-labelledby="t-entrega">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Segunda a sábado, das 8h às 20h</p>
+          <h2 id="t-entrega">Entrega e <em>retirada</em></h2>
+          <p>Aos domingos não há entrega nem retirada.</p>
+        </div>
+        <div class="grade grade--3">
+          <article class="info">
+            <span class="info__icone" aria-hidden="true">🏠</span>
+            <h3>Retirada grátis</h3>
+            <p data-endereco></p>
+          </article>
+          <article class="info info--destaque">
+            <span class="info__icone" aria-hidden="true">🚗</span>
+            <h3>Entrega da Doce Maria</h3>
+            <p>Até 10 km de carro do Ipsep. R$ 7,00 até 2 km e mais R$ 1,50 por km depois disso.</p>
+            <details class="bairros">
+              <summary>Ver a taxa de cada bairro</summary>
+              <table>
+                <thead><tr><th scope="col">Bairro</th><th scope="col">Taxa estimada</th></tr></thead>
+                <tbody data-lista-bairros></tbody>
+              </table>
+              <p class="nota">Outro bairro: a taxa é combinada no WhatsApp.</p>
+            </details>
+          </article>
+          <article class="info">
+            <span class="info__icone" aria-hidden="true">🚘</span>
+            <h3>Uber ou 99 por sua conta</h3>
+            <p>Você chama e paga direto no app. <strong>Bolo só de carro</strong>, para não chegar amassado. Moto só para salgados e doces.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="secao secao--folha" id="pagamento" aria-labelledby="t-pagamento">
+      <div class="container">
+        <div class="secao__cabeca">
+          <p class="sobretitulo">Antes de pedir</p>
+          <h2 id="t-pagamento">Pagamento e <em>combinados</em></h2>
+        </div>
+        <ul class="combinados">
+          <li><span aria-hidden="true">💠</span><strong>Pix</strong> Valor total, depois que a Doce Maria confirma a data e os valores.</li>
+          <li><span aria-hidden="true">💵</span><strong>Dinheiro</strong> Na entrega ou na retirada.</li>
+          <li><span aria-hidden="true">🔒</span><strong>Mudanças</strong> Depois de confirmado, o pedido não pode ser alterado.</li>
+          <li><span aria-hidden="true">↩️</span><strong>Desistência</strong> Até 12 horas antes do horário marcado, a Doce Maria devolve 70% do valor pago.</li>
+          <li><span aria-hidden="true">🕖</span><strong>Atendimento</strong> Mensagens respondidas até as 19h.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="faixa-instagram" aria-label="Instagram">
+      <div class="container faixa-instagram__linha">
+        <div>
+          <p class="faixa-instagram__titulo">Veja as novidades e os bolos da semana</p>
+          <p class="faixa-instagram__sub">@docem.s no Instagram</p>
+        </div>
+        <a class="botao botao--claro botao--grande" data-link-instagram target="_blank" rel="noopener">Seguir no Instagram</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="container rodape__grade">
+      <div>
+        <p class="marca marca--rodape"><img class="marca__logo" src="img/logo-160.webp" alt="" width="80" height="80"> <span class="marca__nome">Doce Maria</span></p>
+        <p>Bolos, doces e salgados por encomenda, feitos à mão no Ipsep.</p>
+        <p data-cnpj hidden></p>
+      </div>
+      <div>
+        <h2 class="rodape__titulo">Onde estamos</h2>
+        <p data-endereco></p>
+        <p>Segunda a sábado, 8h às 20h</p>
+      </div>
+      <div>
+        <h2 class="rodape__titulo">Fale com a gente</h2>
+        <p><a data-link-whatsapp target="_blank" rel="noopener"></a></p>
+        <p><a data-link-instagram target="_blank" rel="noopener">@docem.s no Instagram</a></p>
+      </div>
+    </div>
+    <div class="container rodape__creditos" data-creditos></div>
+  </footer>
+
+  <!-- Barra fixa do pedido (celular) -->
+  <div class="barra-pedido" data-barra hidden>
+    <button type="button" class="barra-pedido__botao" data-abrir-carrinho>
+      <span class="barra-pedido__info">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span data-barra-resumo></span>
+      </span>
+      <span class="barra-pedido__acao">Ver pedido →</span>
+    </button>
+  </div>
+
+  <!-- Montador de bolo e de kit -->
+  <dialog class="painel" id="dlg-montar" aria-labelledby="montar-titulo">
+    <form class="painel__corpo" method="dialog" data-form-montar novalidate></form>
+  </dialog>
+
+  <!-- Carrinho e finalização -->
+  <dialog class="painel painel--lateral" id="dlg-carrinho" aria-labelledby="carrinho-titulo">
+    <div class="painel__corpo" data-carrinho></div>
+  </dialog>
+
+  <!-- Depois de abrir o WhatsApp -->
+  <dialog class="painel painel--pequeno" id="dlg-enviado" aria-labelledby="enviado-titulo">
+    <div class="painel__corpo enviado">
+      <p class="enviado__icone" aria-hidden="true">💌</p>
+      <h2 id="enviado-titulo">Seu pedido abriu no WhatsApp</h2>
+      <p>É só tocar em <strong>enviar</strong> lá. A Doce Maria confirma a data e os valores e, se for Pix, manda a chave.</p>
+      <p class="nota">Se o WhatsApp não abriu, toque no botão abaixo.</p>
+      <div class="enviado__acoes">
+        <a class="botao botao--primario" data-link-pedido target="_blank" rel="noopener">Abrir o WhatsApp de novo</a>
+        <button class="botao botao--secundario" type="button" data-novo-pedido>Começar um novo pedido</button>
+        <button class="botao botao--texto" type="button" data-fechar>Fechar</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="aviso" role="status" aria-live="polite" data-aviso></div>
+
+  <noscript>
+    <p class="sem-js">Para montar o pedido, ative o JavaScript. Ou chame a Doce Maria no WhatsApp: (81) 98818-6706.</p>
+  </noscript>
+</body>
+</html>
